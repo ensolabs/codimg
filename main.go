@@ -74,6 +74,8 @@ func codeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/", fs)
 	http.HandleFunc("/code.svg", codeHandler)
 	fmt.Println("Listening on :8100")
 	log.Fatal(http.ListenAndServe("[::]:8100", nil))
