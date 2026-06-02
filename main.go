@@ -36,28 +36,33 @@ func codeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	lines := strings.Split(input, "\n")
+	lang := r.URL.Query().Get("lang")
+	tokenLines := Tokenize(input, lang)
 
 	maxLen := 0
-	for _, line := range lines {
+	for _, line := range strings.Split(input, "\n") {
 		if n := utf8.RuneCountInString(line); n > maxLen {
 			maxLen = n
 		}
 	}
 
 	width := int(float64(maxLen)*charWidth) + paddingX*2
-	height := len(lines)*lineHeight + paddingY*2
+	height := len(tokenLines)*lineHeight + paddingY*2
 
 	w.Header().Set("Content-Type", "image/svg+xml")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 
 	fmt.Fprintf(w, `<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d">`, width, height)
 	fmt.Fprintf(w, `<rect width="%d" height="%d" rx="8" fill="black"/>`, width, height)
-	fmt.Fprintf(w, `<text xml:space="preserve" font-family="monospace" font-size="%d" fill="white">`, fontSize)
+	fmt.Fprintf(w, `<text xml:space="preserve" font-family="monospace" font-size="%d">`, fontSize)
 
-	for i, line := range lines {
+	for i, tokens := range tokenLines {
 		y := paddingY + i*lineHeight + (lineHeight+fontSize)/2
-		fmt.Fprintf(w, `<tspan x="%d" y="%d">%s</tspan>`, paddingX, y, svgEscaper.Replace(line))
+		fmt.Fprintf(w, `<tspan x="%d" y="%d">`, paddingX, y)
+		for _, tok := range tokens {
+			fmt.Fprintf(w, `<tspan fill="%s">%s</tspan>`, tok.Color, svgEscaper.Replace(tok.Text))
+		}
+		fmt.Fprint(w, `</tspan>`)
 	}
 
 	fmt.Fprint(w, `</text></svg>`)
@@ -65,6 +70,6 @@ func codeHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/code.svg", codeHandler)
-	fmt.Println("Listening on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	fmt.Println("Listening on :8100")
+	log.Fatal(http.ListenAndServe("[::]:8100", nil))
 }
