@@ -61,19 +61,33 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    Html.div [ Attr.class "monospace h-screen w-screen relative" ]
+    Html.div [ Attr.class "relative w-screen h-screen monospace" ]
         [ Html.input
-            [ Attr.class "fixed p-1 border-solid border-2 bg-black text-white rounded-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
+            [ Attr.class "fixed top-1/2 left-1/2"
+            , Attr.class "p-1"
+            , Attr.class "text-center"
+            , Attr.class "text-white"
+            , Attr.class "bg-black"
+            , Attr.class "border-2 border-solid rounded-xl"
+            , Attr.class "-translate-x-1/2 -translate-y-1/2"
             , Attr.value model.language
             , Attr.title "Select language for syntax highlighting"
             , Events.onInput TypedLanguage
             ]
             []
-        , Html.div [ Attr.class "fixed bottom-0 right-0 text-center text-sm p-2" ]
+        , Html.div
+            [ Attr.class "fixed right-0 bottom-0"
+            , Attr.class "p-2"
+            , Attr.class "text-center text-sm"
+            ]
             [ Html.a [ Attr.href "https://enso.no", Attr.target "_blank" ] [ Html.text "Made with ❤️ by Ensō" ] ]
         , Html.textarea
             [ halfScreenAttr
-            , Attr.class "outline-none border-solid border-2 rounded-xl p-4 font-mono resize-none"
+            , Attr.class "p-4"
+            , Attr.class "font-mono"
+            , Attr.class "border-2 border-solid rounded-xl"
+            , Attr.class "outline-none"
+            , Attr.class "resize-none"
             , Attr.value model.code
             , Events.onInput TypedCode
             , Attr.autofocus True
@@ -90,7 +104,7 @@ view model =
 
 halfScreenAttr : Html.Attribute msg
 halfScreenAttr =
-    Attr.class "float-left md:h-full md:w-1/2 h-1/2 w-full overflow-y-scroll p-4"
+    Attr.class "float-left w-full md:w-1/2 h-1/2 md:h-full overflow-y-scroll p-4"
 
 
 codeToSrc : { a | code : String, language : String } -> String
