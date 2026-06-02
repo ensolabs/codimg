@@ -69,6 +69,8 @@ view model =
             , Events.onInput TypedLanguage
             ]
             []
+        , Html.div [ Attr.class "fixed bottom-0 right-0 text-center text-sm p-2" ]
+            [ Html.a [ Attr.href "https://enso.no", Attr.target "_blank" ] [ Html.text "Made with ❤️ by Ensō" ] ]
         , Html.textarea
             [ halfScreenAttr
             , Attr.class "outline-none border-solid border-2 rounded-xl p-4 font-mono resize-none"
