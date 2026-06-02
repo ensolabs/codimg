@@ -35,6 +35,11 @@ func codeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "input too large", http.StatusRequestEntityTooLarge)
 		return
 	}
+	input = decodeInput(input)
+	if len(input) > maxInputSize {
+		http.Error(w, "input too large", http.StatusRequestEntityTooLarge)
+		return
+	}
 
 	lang := r.URL.Query().Get("lang")
 	tokenLines := Tokenize(input, lang)
