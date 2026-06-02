@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"compress/flate"
 	"encoding/base64"
+	"fmt"
 	"io"
+	"strings"
 )
 
 func decodeInput(s string) string {
@@ -25,8 +27,11 @@ func decodeInput(s string) string {
 }
 
 func tryBase64(s string) ([]byte, bool) {
+	s = strings.Replace(s, "_", "+", -1)
 	if b, err := base64.StdEncoding.DecodeString(s); err == nil {
 		return b, true
+	} else {
+		fmt.Println(err)
 	}
 	return nil, false
 }
