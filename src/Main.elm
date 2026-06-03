@@ -99,6 +99,7 @@ view model =
         , Html.div [ halfScreenAttr, Attr.class "flex items-center justify-center" ]
             [ Html.img
                 [ Attr.src <| codeToSrc model
+                , Attr.alt model.code
                 ]
                 []
             ]
