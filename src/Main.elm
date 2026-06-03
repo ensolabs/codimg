@@ -70,8 +70,8 @@ view model =
             , Attr.class "bg-black"
             , Attr.class "border-2 border-solid rounded-xl"
             , Attr.class "-translate-x-1/2 -translate-y-1/2"
-            , Attr.value model.language
             , Attr.title "Select language for syntax highlighting"
+            , Attr.value model.language
             , Events.onInput TypedLanguage
             ]
             []
@@ -80,7 +80,10 @@ view model =
             , Attr.class "p-2"
             , Attr.class "text-center text-sm"
             ]
-            [ Html.a [ Attr.href "https://enso.no", Attr.target "_blank" ] [ Html.text "Made with ❤️ by Ensō" ] ]
+            [ Html.a [ Attr.href "https://enso.no", Attr.target "_blank" ] [ Html.text "Made with ❤️ by Ensō" ]
+            , Html.text " | "
+            , Html.a [ Attr.href "https://github.com/ensolabs/codimg", Attr.target "_blank" ] [ Html.text "Source" ]
+            ]
         , Html.textarea
             [ halfScreenAttr
             , Attr.class "p-4"
